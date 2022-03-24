@@ -1,0 +1,175 @@
+.body{
+  width:100vw;
+  height: 100vh;
+}
+
+.page {
+  background-color: $secondary;
+}
+
+.menu-rigth {
+  background-color: $primary;
+  height: 100vh;
+  border-top-right-radius: 150px 50vh;
+  border-bottom-right-radius: 150px 50vh;
+}
+
+.menu-left {
+  background-color: $secondary;
+  height:100vh;
+}
+
+.title {
+  font-family: 'Fuggles', cursive;
+  font-size: 13vh;
+  font-weight: 900;
+  color: white;
+}
+
+.carteTitle {
+  width: 20vw;
+  padding:1rem;
+  border: 5px groove $secondary;
+  background:$black;
+  -webkit-transform:skew(0,-10deg);
+  -moz-transform:skew(0,-10deg);
+  -o-transform:skew(0,-10deg);
+  tranform:skew(0,-10deg);
+}
+
+.btn-css {
+  font-size: 1.5rem;
+  border: 5px groove $black;
+  border-radius: 50px 20px;
+  width: 60%;
+}
+
+.btn-secondary:hover{
+  color:black;
+  font-size: 1.5rem;
+  width: 60%;
+}
+
+.btn-primary:hover{
+  color:white;
+}
+
+.btn-cs {
+  color:black;
+  font-size: 1.5rem;
+  border: 5px groove $black;
+  border-radius: 50px 20px;
+  width: 60%;
+}
+
+.btn-color{
+  background-color:#D56F3E;
+  color:white;
+  font-size: 1.5rem;
+  width: 60%;
+}
+
+.image {
+  border-radius: 50px;
+  max-width: 90%;
+}
+
+.card-header {
+  background-color:$secondary;
+}
+
+.font-form {
+  background-color:#D0CD94;
+}
+
+.font-small {
+  font-size : 1.3rem;
+}
+
+.form-check .form-check-input {
+  float:none;
+}
+
+.btn-small{
+  font-size: 1rem;
+  width: 95%;
+}
+.result{
+  height: 100%;
+  width: 100%;
+  border-radius: 30px;
+  //background-image:url("../images/Bernard_Palissy.jpg");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+.title-school{
+  background-color: $black;
+  opacity: 0.6;
+}
+
+.card-school{
+  width: 80%;
+  border: 5px groove $white;
+  border-radius: 30px;
+  background-color: #D0CD94;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  margin:5vh;
+}
+
+.menu-at{
+  display:none!important;
+}
+.school-phon{
+  display:none;
+}
+
+h1 h2 {
+  font-family: 'Comfortaa', cursive;
+}
+
+.round{
+  border-radius: 30px;
+}
+
+.dist{
+  font-size: 20px;
+  top:50%;
+  left: 85%;
+  width:20%;
+}
+
+img{
+  object-fit: contain;
+  max-height: 60vh;
+  width: auto;
+}
+
+.distance{
+  width: 70%;
+  background-color: $secondary;
+  border-radius: 30px;
+}
+
+@media screen and(max-width:992px){
+  .menu-left{
+    display: none!important;
+  }
+
+  .school-phone{
+    display:none;
+  }
+}
+
+.alert{
+  width:300px;
+  right: 50px;
+  top:50px;
+  border: solid 6px green;
+  border-radius: 25% 10%;
+}
+
+.alert-danger{
+  border-color: red;
+}

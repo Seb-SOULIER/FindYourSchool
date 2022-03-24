@@ -1,0 +1,135 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dons{% endblock %}
+
+{% block body %}
+    <div class="container-fluid vh-100">
+        <div class="row page">
+            <div class="d-flex flex-column col-lg-4 col-12 menu-rigth">
+                <div class="d-flex flex-column text-center justify-content-center align-items-center h-75">
+                    <div class="d-flex flex-column carteTitle w-75">
+                        <h1 class="title">Trouve ton école</h1>
+                    </div>
+                </div>
+                <a class="btn btn-secondary btn-css w-50 mx-auto mt-0" href="{{ path('app_student') }}">Retour</a>
+            </div>
+            <div class="d-flex col-8 menu-left">
+                <div class="d-flex flex-column col-11 m-auto">
+                    <div>
+                        <h2 class="text-light text-center">Faire un don pour le fonctionnement du site </h2>
+                        <p class="text-light font-small">
+                            Depuis que ce site est en ligne, il fournit gratuitement des ressources à des personnes aux 4 coins de la France.<br>
+                            Son fonctionnement, son entretien technique, sa mise à jour demandent du temps et de l’argent.<br>
+                            Nous avons souhaité vous épargner le moindre bandeau publicitaire. Nous ne traitons ni ne revendons également aucune donnée personnelle.<br><br>
+
+                            Comme vous le voyez, ce site a donc un contenu conséquent totalement gratuit. Si vous l’approuvez, si vous souhaitez remercier pour ce que vous y avez trouvé, vous pouvez le faire ici concrètement. Merci par avance !</span>
+                        </p>
+                    </div>
+                    <div class="d-flex flex-column flex-lg-row flex-wrap provider-list">
+                        <div class="col-10 col-lg-5 m-1 mx-auto">
+                            <div class="card h-100 shadow p-3 round">
+                                <div class="row g-0 providers h-100">
+                                    <div class="d-flex flex-column h-100">
+                                        <h3 class="card-title text-center">
+                                            Envoyer un commentaire
+                                        </h3>
+                                        <p class="card-text">
+                                            {{ form_start(formComment) }}
+                                            {{ form_widget(formComment) }}
+
+                                            <div class="d-flex col-12 justify-content-center">
+                                                <div class="d-flex col-4">
+                                                    <button class="btn btn-primary btn-cs btn-small">{{ button_label|default('Envoyer') }}</button>
+                                                </div>
+                                            </div>
+                                            {{ form_end(formComment) }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-10 col-lg-5 m-1 mx-auto">
+                            <div class="card h-100 shadow p-3 round">
+                                <div class="row g-0 providers h-100">
+                                    <div class="d-flex flex-column h-100">
+                                        <h3 class="card-title text-center">
+                                            Faire un don
+                                            <img height="50px" src="{{ asset('build/images/smiley-content.png')}}" alt="Smiley content">
+                                        </h3>
+                                        <p class="card-text">
+                                            {{ form_start(formDonate,{'attr': {'class': 'h-100 d-flex flex-column'}}) }}
+                                            {{ form_label(formDonate.mail) }}
+                                            {{ form_widget(formDonate.mail) }}
+                                            {{ form_errors(formDonate.mail) }}
+                                            {{ form_label(formDonate.amount) }}
+                                            <div class="input-group flex-nowrap" >
+                                                <span class="w-100" style="text-align-last: center">
+                                                    {{ form_widget(formDonate.amount) }}
+                                                </span>
+                                                <span class="input-group-text">€</span>
+                                            </div>
+                                            {{ form_errors(formDonate.amount) }}
+                                        <div class="d-flex col-12 mt-auto mb-0 justify-content-center">
+                                            <div class="d-flex col-8">
+                                                {% if donate.id %}
+                                                    {% set buttonText = 'Faire un don de ' ~ donate.amount ~ " €uros"  %}
+                                                {% else %}
+                                                    {% set buttonText = 'Faire un don' %}
+                                                {% endif %}
+                                                <button id="checkout-button" class="btn btn-primary btn-cs btn-small">{{ button_label|default( buttonText ) }}</button>
+                                            </div>
+                                        </div>
+                                        {{ form_end(formDonate) }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://js.stripe.com/v3/"></script>
+    <script type="text/javascript">
+        // Create an instance of the Stripe object with your publishable API key
+        {% if app_environement == 'dev' %}
+        var stripeToken = "{{ stripe_public_key_test }}";
+        {% else %}
+        var stripeToken = "{{ stripe_public_key_live }}";
+        {% endif %}
+
+        var stripe = Stripe(stripeToken);
+
+        var donateIsDefined = "{{ donate.id }}";
+        console.log(donateIsDefined)
+        if(donateIsDefined > 0) {
+                var link = "{{ path('stripe_create_session',{'donate': donate.id|default(0) }) }}";
+                fetch(link, {
+                    method: "POST"
+                })
+                    .then(function (response) {
+                        return response.json();
+                    })
+                    .then(function (session) {
+                        return stripe.redirectToCheckout({sessionId: session.id});
+                    })
+                    .then(function (result) {
+                        if (result.error) {
+                            alert(result.error.message);
+                        }
+                    })
+                    .catch(function (error) {
+                        console.error("Error:", error);
+                    });
+        }
+
+        function refrechButton() {
+            document.getElementById('checkout-button').innerHTML = "Faire un don de " + pressAmount.value + " €uros"
+
+        }
+        var pressAmount = document.getElementById('donate_amount')
+        pressAmount.addEventListener("keyup", refrechButton)
+    </script>
+{% endblock %}

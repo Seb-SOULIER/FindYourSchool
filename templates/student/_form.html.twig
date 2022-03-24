@@ -1,0 +1,67 @@
+
+<div class="d-flex flex-column col-lg-4 col-12 menu-rigth text-center justify-content-center align-items-center w-100">
+    {{ form_start(form) }}
+    <h1 class="text-secondary">Etudiant :</h1>
+    <div class="d-flex flex-column text-center justify-content-center align-items-center">
+        <div class="card text-center shadow w-100">
+            <div class="card-header w-100">
+                <div class="form-control shadow-sm font-form">
+                    <div class="text-danger">
+                        {{ form_errors(form.firstname) }}
+                    </div>
+                    {{ form_label(form.firstname, 'Prénom :') }}
+                    {{ form_widget(form.firstname) }}
+
+                    <div class="text-danger">
+                        {{ form_errors(form.civility) }}
+                    </div>
+                    {{ form_label(form.civility, 'Sexe :') }}
+                    {{ form_widget(form.civility) }}
+
+                    <div class="text-danger">
+                        {{ form_errors(form.private) }}
+                    </div>
+                    {{ form_label(form.private, 'Ecole :') }}
+                    {{ form_widget(form.private) }}
+
+                    <div class="text-danger">
+                        {{ form_errors(form.cursus) }}
+                    </div>
+                    <div class="mt-2">
+                        {{ form_label(form.cursus, 'Classe :') }}
+                        {{ form_widget(form.cursus) }}
+                    </div>
+
+                    <div class="text-danger">
+                        {{ form_errors(form.address) }}
+                    </div>
+                    <div class="mt-2">
+                        {{ form_label(form.address, 'Adresse :') }}
+                        {{ form_widget(form.address) }}
+                    </div>
+
+                    <div class="text-danger">
+                        {{ form_errors(form.zipcode) }}
+                    </div>
+                    <div class="mt-2">
+                        {{ form_label(form.zipcode, 'Code postal :') }}
+                        {{ form_widget(form.zipcode) }}
+                    </div>
+
+                    <div class="text-danger">
+                        {{ form_errors(form.city) }}
+                    </div>
+                    {{ form_label(form.city, 'Ville :') }}
+                    {{ form_widget(form.city) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex flex-column">
+        <button class="btn btn-secondary btn-cs mx-auto mt-3" type="submit">
+            {{ button_label|default('Ajouter') }}
+        </button>
+{#        <a class="btn btn-color btn-css mx-auto mt-3" href="{{ path('app_logout') }}">Déconnection</a>#}
+    </div>
+    {{ form_end(form) }}
+</div>

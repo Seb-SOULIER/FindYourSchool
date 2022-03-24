@@ -1,0 +1,105 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Etudiants{% endblock %}
+
+{% block body %}
+    <div class="container-fluid h-100">
+        <div class="d-flex flex-column-reverse flex-lg-row page h-100">
+            <div class="d-flex flex-column col-lg-4 col-12 menu-rigth
+             text-center justify-content-center align-items-center">
+                {% include 'student/_form.html.twig' %}
+            </div>
+            <div class="d-flex col-lg-8">
+                <div class="d-flex flex-column col-11 m-auto">
+                    <h1 class="text-center text-primary" style="margin-bottom:2rem">Profils :</h1>
+                    <div class="d-flex flex-column flex-lg-row flex-wrap provider-list">
+                        {% for student in students %}
+                            <div class="col-10 col-lg-5 m-1 mx-auto">
+                                <div class="card h-100 shadow p-3 round">
+                                    <div class="row g-0 providers h-100">
+                                        <div class="d-flex flex-column align-items-center col-md-5 mb-0">
+                                            <div class="d-flex h-100">
+                                                <img class="img-fluid round" alt="Photo de profil"
+                                                        {% if student.civility == 1 %}
+                                                            src="{{ asset('build/images/boy-student.png')}}"
+                                                        {% else %}
+                                                            src="{{ asset('build/images/girl-student.png')}}"
+                                                        {% endif %}
+                                                />
+                                            </div>
+                                            <div class="col-12 mt-auto">{{ include('student/_delete_form.html.twig') }}</div>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <div class="d-flex flex-column h-100">
+                                                <h3 class="card-title text-center">
+                                                    {{ student.firstname }}
+                                                </h3>
+                                                <h5 class="card-title">{{ student.cursus.name }}</h5>
+                                                <p>
+                                                    <span class="card-text">{{ student.address }}<br>{{ student.zipcode }} {{ student.city }}</span>
+                                                    <span class="card-text" style="color:#D56F3E; font-weight:bold">
+                                            {% if(student.longitude == 0) %} Ville inconnue {% endif %}
+                                        </span>
+                                                </p>
+                                                <p class="card-text">
+                                                    {% if student.schoolId is not null %}
+                                                        <a class="text-secondary fw-bold"
+                                                           href="{{ path('school_show',
+                                                               {'id':student.id,'school':student.schoolId }) }}">
+                                                            {{ student.schoolName }}
+                                                        </a>
+                                                    {% endif %}
+                                                </p>
+                                                <div class="d-flex mt-auto">
+                                                    <div class="col-12">
+                                                        <a class="btn btn-primary  btn-cs btn-small" href="{{ path('school_list',{'id':student.id}) }}">
+                                                            Voir les écoles
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% else %}
+                            <h4 class="text-primary">Aucun profil enregistré.</h4>
+                        {% endfor %}
+                    </div>
+                    <div class="col-12 col-lg-12 m-1 mx-auto mt-5">
+                        <div class="card h-100 shadow p-3 round">
+                            <div class="row g-0 providers h-100">
+                                <div class="col-md-12">
+                                    <div class="d-flex flex-column h-100">
+                                        <h3 class="card-title text-center">
+                                            Faire un don pour le fonctionnement du site
+                                        </h3>
+                                        <p class="card-text">
+                                            Depuis que ce site est en ligne, il fournit gratuitement des ressources à des personnes aux 4 coins de la France.<br>
+                                            Son fonctionnement, son entretien technique, sa mise à jour demandent du temps et de l’argent.<br>
+                                            Nous avons souhaité vous épargner le moindre bandeau publicitaire. Nous ne traitons ni ne revendons également aucune donnée personnelle.<br><br>
+
+                                            Comme vous le voyez, ce site a donc un contenu conséquent totalement gratuit. Si vous l’approuvez, si vous souhaitez remercier pour ce que vous y avez trouvé, vous pouvez le faire ici concrètement. Merci par avance !</span>
+                                        </p>
+                                        <div class="d-flex col-12 justify-content-center">
+                                            <div class="d-flex col-4">
+                                                <a class="btn btn-primary btn-cs btn-small" href="{{ path('app_dons') }}">
+                                                    Laisser un commentaire
+                                                </a>
+                                            </div>
+                                            <div class="d-flex col-4">
+                                                <a class="btn btn-primary btn-cs btn-small" href="{{ path('app_dons') }}">
+                                                    Faire un Don
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

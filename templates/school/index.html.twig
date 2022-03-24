@@ -1,0 +1,99 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ecoles{% endblock %}
+
+{% block body %}
+    <div class="container-fluid h-100">
+        <div class="d-flex flex-column-reverse flex-lg-row page h-100">
+            <div class="d-flex flex-column col-lg-4 col-12 menu-rigth
+             text-center justify-content-center align-items-center school-phone">
+                <div class="distance">
+                    <form id="form" action="/school/list/{{ student.id }}">
+                        <h3>
+                            <label for="customRange1" class="form-label">Distance maximum : <output id="outputId" name="result4"></output> km
+                            </label>
+                        </h3>
+                        <fieldset>
+                            <label for="sliderId"></label>
+                            <input id="sliderId" type="range" name="d" min="0" max="50" step="1" value="{{ (dist/1000)|round(2, 'floor')}}" oninput="result4.value=parseInt(d.value)" onchange="actList()"/>
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="card h-50 shadow p-3 w-75 round m-2">
+                    <div class="col h-75 d-flex align-items-center justify-content-center
+                     flex-column font-form w-100" style="border-radius: 30px">
+                        <div class="col-md-5">
+                            <div class="d-flex h-100 justify-content-center">
+                                <img class="img-fluid round" alt="Photo de profil"
+                                    {% if student.civility == 1 %}
+                                        src="{{ asset('build/images/boy-student.png')}}"
+                                    {% else %}
+                                        src="{{ asset('build/images/girl-student.png')}}"
+                                    {% endif %}
+                                />
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+                            <h3 class="card-title text-center">{{ student.firstname }}</h3>
+                            <h5 class="card-title">{{ student.cursus.name }}</h5>
+                            <p>
+                                <span class="card-text">{{ student.address }}<br>{{ student.zipcode }} {{ student.city }}</span>
+                                <span class="card-text fw-bold" style="color:#D56F3E">
+                                        {% if(student.longitude == 0) %} Ville inconnue {% endif %}
+                                    </span>
+                            </p>
+                            <p class="card-text">
+                                {% if student.schoolId is not null %}
+                                    <a class="text-secondary fw-bold"
+                                       href="{{ path('school_show',{'id':student.id,'school':student.schoolId }) }}">
+                                        {{ student.schoolName }}
+                                    </a>
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex flex-column w-100">
+                    <a class="btn btn-secondary btn-css mx-auto mt-3" href="{{ path('app_student') }}">Retour</a>
+                </div>
+            </div>
+            <div class="d-flex col-lg-8 vh-100" style="overflow-y: scroll">
+                <div class="d-flex flex-column col-11 m-auto">
+                    <h1 class="text-center text-primary">Liste des écoles</h1>
+                    {% for school in schools.records %}
+                        <div class="col-sm-12 mb-3">
+                            <div class="card h-100 shadow p-3 font-form" style="border-radius: 30px; border: #FFFFFF solid 4px">
+                                <div class="row">
+                                    <h3 class="card-title text-center">{{ school.fields.nom_etablissement }}</h3>
+                                    <a class="btn btn-primary btn-cs mt-1 w-25 mx-auto"  style="font-size:1.2rem"
+                                       href="{{ path('school_show',
+                                           {'id':student.id,'dist': dist,'school':school.fields.identifiant_de_l_etablissement}) }}">
+                                        Voir la fiche
+                                    </a>
+                                    <span class="position-absolute dist">
+                                        {% if(school.fields.dist/1000)|round(0,'floor') == 0 %}
+                                            {{ school.fields.dist|round }}&nbsp; m
+                                        {% else %}
+                                            {{ (school.fields.dist/1000)|round(2, 'floor')}}&nbsp; km
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <h4>Pas d'école trouvée</h4>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('outputId').value = document.getElementById('sliderId').value;
+
+        function actList(){
+            window.location.href = document.getElementById('form').getAttribute('action') + "/"+ document.getElementById('sliderId').value*1000;
+        }
+    </script>
+
+{% endblock %}
